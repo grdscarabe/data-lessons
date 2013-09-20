@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Cours 1 : Qualité des données : le quoi et le pourquoi ? -- «Data quality»</title>
+		<meta name="author" content="Fabien Poulard">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../reveal.js-2.5.0/css/reveal.min.css">
+		<link rel="stylesheet" href="../reveal.js-2.5.0/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../reveal.js-2.5.0/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="../reveal.js-2.5.0/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../reveal.js-2.5.0/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>Introduction à la Qualité des données</h2>
+					<h3>Intérêt des données de qualité</h3>					
+					<p>
+						<small>Par <a href="http://www.fabienpoulard.info">Fabien Poulard</a> / <a href="http://twitter.com/grdscarabe">@grdscarabe</a> / <a href="http://www.dictanova.com">Dictanova</a></small>
+					</p>
+					<p>
+						<small>EPSI -- «Qualité des données»</small>
+					</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>La donnée est un actif de l'entreprise</h2>
+						<img src="img/company-asset.png" title="La valeur des données dépend directement de leur qualité" />
+					</section>
+
+					<section>
+						<h3>... traité différemment des autres actifs !</h3>
+						<p>Obtenir et maintenir les données à un niveau de qualité adéquate nécessite un effort permanent qui coûte :</p>
+						<ol>
+							<li>du temps</li>
+							<li>du dévouement</li>
+							<li>... et donc de l'argent !</li>
+						</ol>
+						<p>Par conséquent les données sont généralement de mauvaise qualité faute d'un tel effort.</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Un atout décisionnel</h2>
+						<p>Les données guident de plus en plus les décisions en entreprise.</p>
+						<p>Une analyse basée sur de mauvaises données mène à de mauvaises décisions tactiques et stratégiques.</p>
+						<p>80% des entreprises en sont conscientes... et après ?</p>
+					</section>
+
+					<section>
+						<h3>Mauvaise qualité des bases clients</h3>
+						<ul>
+							<li>$28M gaspillés en mailing de personnes décédées</li>
+							<li>$611G de dépenses non-nécessaires en impression, publipostage et ressources humaines</li>
+							<li>En un an, 37% des données d'une base prospects deviennent obsolètes</li>
+						</ul>
+
+						<aside class="notes">
+							<ul>
+								<li>http://fr.slideshare.net/B2BDataPartners/data-quality-process</li>
+								<li>The Data Warehouse Institute</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section>
+						<h3>Manque à gagner ?</h3>
+						<ul>
+							<li>15% à 25% de marge perdue</li>
+							<li>25% des données critiques des Fortunes 1000 sont inexactes, imprécises</li>
+						</ul>
+
+						<aside class="notes">
+							<ul>
+								<li>http://fr.slideshare.net/bhschatz/data-quality</li>
+								<li>The Data Warehouse Institute</li>
+								<li>Gartner</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section>
+						<h3>Impact sur l'entreprise ?</h3>
+						<ul>
+							<li>Une mauvaise facturation ou un mauvais paiement dégrade la confiance client</li>
+							<li>Augmentation des dépenses opérationnelles dues au traitement des corrections et renvois</li>
+							<li>Perte de clients par manque de suivi ou de reconnaissance des clients de valeur</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Impact sur les projets IT ?</h3>
+						<ul>
+							<li>Temps perdu en réconciliation des données</li>
+							<li>Dépassement des délais</li>
+							<li>Perte de crédibilité en un système qui fonctionne sur de mauvaises données</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Facteurs d'impact sur la qualité des données</h2>
+						<aside class="note">http://fr.slideshare.net/PowerDataGrupo/data-quality-21126860</aside>
+					</section>
+
+					<section>
+						<h3>Process externes</h3>
+						<ul>
+							<li>Migrations</li>
+							<li>Consolidations</li>
+							<li>Saisies manuelles</li>
+							<li>Éditions massives</li>
+							<li>Interfaces</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Process internes</h3>
+						<ul>
+							<li>Traitements</li>
+							<li>Nettoyage</li>
+							<li>Purification</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Détérioration naturelle</h3>
+						<ul>
+							<li>Nouveaux usages des données</li>
+							<li>Modifications non enregistrées</li>
+							<li>Mise à jour des systèmes</li>
+							<li>Perte de connaissance</li>
+							<li>Automatisation des process</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Un peu de pratique</h2>
+					</section>
+
+					<section>
+						<h3>Hétérogénéité des données</h3>
+						<p>Visualiser plusieurs jeux de données issus de la plateforme <a href="http://data.nantes.fr">data.nantes.fr</a></p>
+					</section>
+
+					<section>
+						<h3>Un peu d'exploration</h3>
+						<p>Utilisez <a href="http://openrefine.org/">Open Refine</a> pour vous donner une idée du contenu du jeu de données concernant la <a href="http://data.nantes.fr/donnees/detail/jours-de-collectes-des-dechets-a-nantes-1/">collecte des déchets</a>.</p>
+					</section>
+
+					<section>
+						<h3>Un peu plus d'exploration</h3>
+						<p>Quels sont les noms les plus donnés à Nantes par année et par sexe ?</p>
+						<p>Cherchez la réponse dans <a href="http://data.nantes.fr/donnees/detail/liste-des-prenoms-des-enfants-nes-a-nantes-entre-2001-et-2012/">les statistiques de prénoms</a> avec :</p>
+						<ul>
+							<li>Open Refine</li>
+							<li>Un tableur</li>
+							<li>Un peu de code</li>
+						</ul>
+					</section>
+
+					<section>
+						<pre><code data-trim contenteditable>
+data_pivot = {}
+
+with open("PRENOMS_ENFANTS_NANTES_PRENOM_ENFANT_SLICE_STBL.csv", "r") as fh:
+	csvreader = csv.reader(fh, delimiter=",", quotechar="\"")
+	csvreader.next()
+	for row in csvreader:
+		year  = row[2]
+		sex   = row[1]
+		fname = row[0]
+		if not data_pivot.has_key(year):
+			data_pivot[year] = {"FILLE": {}, "GARCON": {}}
+		if not data_pivot[year][sex].has_key(fname[0]):
+			data_pivot[year][sex][fname[0]] = 1
+		else:
+			data_pivot[year][sex][fname[0]] += 1
+						</code></pre>
+					</section>
+
+					<section>
+						<pre><code data-trim contenteditable>
+>>> sorted(data_pivot["2011"]["GARCON"].items(), key=itemgetter(1), reverse=True)
+[('M', 18), ('A', 17), ('L', 16), ('E', 11), ('N', 11), ('T', 10), ('R', 8), ('C', 7), ('J', 5), ('B', 4), ('I', 4), ('K', 4), ('P', 4), ('S', 4), ('D', 3), ('G', 3), ('Y', 3), ('O', 2), ('V', 2), ('F', 1), ('H', 1), ('Q', 1)]
+>>> for y in data_pivot.keys():
+...     print "%s -> %s" % (y, sorted(data_pivot[y]["FILLE"].items(), key=itemgetter(1), reverse=True)[0])
+... 
+2002 -> ('A', 18)
+2003 -> ('L', 16)
+2001 -> ('A', 22)
+2006 -> ('L', 26)
+2007 -> ('M', 20)
+2004 -> ('C', 17)
+2005 -> ('L', 27)
+2008 -> ('L', 29)
+2009 -> ('L', 28)
+2011 -> ('L', 31)
+2010 -> ('L', 29)
+2012 -> ('L', 30)
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<h2>Contreparties des données de qualité</h2>
+					<ul>
+						<li>Meilleure confiance en le système pour prendre des décisions</li>
+						<li>Plus de temps pour prendre des décisions</li>
+						<li><i>Single vision of truth</i></li>
+						<li>Satisfaction client</li>
+						<li>Réduction des coûts</li>
+						<li>Augmentation des marges</li>
+					</ul>
+					<aside class="note">The Data Warehousing Institute</aside>
+				</section>
+
+				<section>
+					<h2>Quelles données ?</h2>
+					<ul>
+						<li>Données clients</li>
+						<li>Données de production</li>
+						<li>Données financières</li>
+						<li>Données de prospection</li>
+						<li>Données des systèmes ERP</li>
+					</ul>
+					<aside class="note">The Data Warehousing Institute</aside>
+				</section>
+
+				<section>
+					<section>
+						<h2>Qu'est-ce que des données de qualité ?</h2>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Complétude</h3>
+						<p>Est-ce que toutes les donnés pertinentes sont présentes ?</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Consistence</h3>
+						<p>Est-ce que les donnés sont dans le même format ?</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Précision</h3>
+						<p>Est-ce que les donnés sont correctes ?</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Pertinence</h3>
+						<p>Est-ce que les donnés sont utiles ?</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Accessibilité</h3>
+						<p>Est-ce que les donnés sont accessibles quand c'est nécessaire ?</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Intégrité</h3>
+						<p>Est-ce que les données restent cohérentes lorsqu'elles sont dupliquées ?</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Gestion de la qualité des données</h2>
+						<p>Cercle d'amélioration continue :</p>
+						<ol>
+							<li><i>Profiling</i> des données</li>
+							<li>Nettoyage (<i>data cleansing</i>, prévention de la détérioration, identification des imperfections)</li>
+							<li>Mesure de la qualité</li>
+						</ol>
+					</section>
+
+					<section>
+						<h3>Profilage des données</h3>
+						<ul>
+							<li>Reconstruction de l'ensemble des traits qui caractérisent les données</li>
+							<li>Application de techniques analytiques pour déterminer :
+								<ul>
+									<li>le Contenu</li>
+									<li>la Structure</li>
+									<li>la Qualité</li>
+								</ul>
+							</li>
+							<li>Découverte vs. Attentes</li>
+					</section>
+
+					<section>
+						<h3>Nettoyage des données</h3>
+						<ul>
+							<li>Normalisation</li>
+							<li>Dédoublonnage</li>
+							<li>Parsing et standardisation</li>
+							<li>Enrichissement</li>
+					</section>
+
+					<section>
+						<h3>Mesure de la qualité</h3>
+						<p>Évaluer l'écart avec les éléments précédents.</p>
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../reveal.js-2.5.0/lib/js/head.min.js"></script>
+		<script src="../reveal.js-2.5.0/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../reveal.js-2.5.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../reveal.js-2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../reveal.js-2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../reveal.js-2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../reveal.js-2.5.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '../reveal.js-2.5.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
