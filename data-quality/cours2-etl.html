@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Cours 2 : ETL -- «Data quality»</title>
+		<meta name="author" content="Fabien Poulard">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../reveal.js-2.5.0/css/reveal.min.css">
+		<link rel="stylesheet" href="../reveal.js-2.5.0/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../reveal.js-2.5.0/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="../reveal.js-2.5.0/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../reveal.js-2.5.0/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>ETL (<i>Extract Transform Load</i>) et Datawarehouse</h2>
+					<p>
+						<small>Par <a href="http://www.fabienpoulard.info">Fabien Poulard</a> / <a href="http://twitter.com/grdscarabe">@grdscarabe</a> / <a href="http://www.dictanova.com">Dictanova</a></small>
+					</p>
+					<p>
+						<small>EPSI -- «Qualité des données»</small>
+					</p>
+				</section>
+
+				<section>
+					<section>
+						<h3>Pourquoi utiliser un ETL ?</h3>
+						<ul>
+							<li>Automatisation des règles qualité</li>
+							<li>Intégration des données dans le datawarehouse</li>
+					</section>
+				</section>
+
+				<section>
+					<section>
+							<h3>Automatisation des règles qualité</h3>
+					</section>
+
+					<section>
+							<h3>Pourquoi ?</h3>
+							<ul>
+								<li>Mesurer en continue le taux de qualité (DQM)</li>
+								<li>Corriger ce qui peut l'être</li>
+							</ul>
+					</section>
+
+					<section>
+							<h3>Quand ?</h3>
+							<ul>
+								<li>Avant l'intégration de nouvelles données</li>
+								<li>En batchs réguliers</li>
+								<li>Avant un export vers une base métier</li>
+							</ul>
+					</section>
+
+					<section>
+						<h3>Mise au point de règles</h3>
+						<ol>
+							<li>Découverte et analyse</li>
+							<li>Tests et améliorations</li>
+							<li>Définition</li>
+							<li>Implémentation</li>
+							<li>Review</li>
+						</ol>
+					</section>
+
+					<section>
+						<h3>Sources pour la vérification</h3>
+						<ul>
+							<li>Standards (n° sécurité sociale, ISBN...)</li>
+							<li>Référentiels métiers</li>
+							<li>Appel à un expert</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Exemples</h3>
+						<ul>
+							<li>Nombre de champs renseignés</li>
+							<li>Format des n° de téléphone et emails</li>
+							<li>Recherche de doublons</li>
+							<li>Accord entre champs (homme + n° sécu commence par 1)</li>
+							<li>Ordres de grandeurs pour les valeurs numériques (âge, montants, mesures...)</li>
+							<li>Données consolidées (sommes, moyennes...)</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Un peu d'exercice</h2>
+						<ul>
+							<li>Lire la description du jeu de données sur les <a href="http://www.info.univ-angers.fr/~gh/Datasets/titanic.htm">passagers du Titanic</a></li>
+							<li>Quelles règles de vérification de la qualité envisager ?</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Correction</h3>
+						<ul>
+							<li>Colonne <i>IDEN</i>
+								<ul>
+									<li>Pas de doublon</li>
+									<li>Commence par un «P» majuscule suivi de 4 chiffres</li>
+								</ul>
+							</li>
+							<li>Colonne <i>CLASS</i> : entiers entre 0 et 3 inclus</li>
+							<li>Colonne <i>SEX</i> : entier 0 ou 1</li>
+							<li>Colonne <i>AGE</i> : entier 0 ou 1</li>
+							<li>Colonne <i>SURV</i> : entier 0 ou 1</li>
+							<li>Nombre de lignes = nombre de passagers du Titanic : 953 passagers et 889 membres d'équipage</li>
+							<li>Nombre de survivants = environ 700</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Plus d'exercices ?</h3>
+						<ul>
+							<li><a href="http://www.data.gouv.fr/DataSet/571911?xtmc=organismes+culturels+g%C3%A9olocalis%C3%A9s&xtcr=1">Liste des organismes publics culturels géolocalisés</a></li>
+							<li><a href="http://archive.ics.uci.edu/ml/datasets/Adult">Revenus américains</a></li>
+							<li><a href="http://archive.ics.uci.edu/ml/datasets/Internet+Advertisements">Publicités Internet</a></li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Pentaho Data Integration</h2>
+						<p><a href="http://www.pentaho.fr/explore/pentaho-data-integration/">www.pentaho.fr/explore/pentaho-data-integration</a></p>
+						<p><a href="http://sourceforge.net/projects/pentaho/">sourceforge.net/projects/pentaho</a></p>
+					</section>
+
+					<section>
+						<h3>Convertir le fichier titanic.dbf au format Excel</h3>
+						<p><img src="./img/c2/pentaho-dbf2xls.jpg" /></p>
+					</section>
+
+					<section>
+						<h3>Règles de mesure de la qualité des champs</h3>
+						<p><img src="./img/c2/pentaho-titanic-checktransfo.jpg" /></p>
+					</section>
+					<section>
+						<h3>Règles de mesure de la qualité des champs</h3>
+						<p><img src="./img/c2/pentaho-titanic-checkparams.jpg" /></p>
+					</section>
+
+					<section>
+						<h3>Compter le nombre de survivants par classe/âge/sexe</h3>
+						<p><img src="./img/c2/pentaho-count-survivors.jpg" /></p>
+					</section>
+
+					<section>
+						<h3>Correspondance entre codes et valeurs</h3>
+						<p><img src="./img/c2/pentaho-count-survivors-correspondance.jpg" /></p>
+					</section>
+
+					<section>
+						<h3>Ressources sur Pentaho</h3>
+						<ul>
+							<li><a href="http://pentahogurus.blogspot.fr/2012/11/pentaho-installation.html">Installation</a></li>
+							<li><a href="http://pentahogurus.blogspot.fr/2012/12/pentaho-data-integration-for-first-time.html">Data integration 1</a></li>
+							<li><a href="http://etl-tools.info/pentaho-tutorial.html">Tutoriels ETL</a></li>
+							<li><a href="http://eric.univ-lyon2.fr/~ricco/tanagra/fichiers/en_Tanagra_Pentaho_Data_Integration.pdf">Tutoriel de prise en main</a></li>
+						</ul>
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../reveal.js-2.5.0/lib/js/head.min.js"></script>
+		<script src="../reveal.js-2.5.0/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../reveal.js-2.5.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../reveal.js-2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../reveal.js-2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../reveal.js-2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../reveal.js-2.5.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '../reveal.js-2.5.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
