@@ -20,3 +20,8 @@ Programme du cours «Qualité des données»
    - Prise en main de Open Refine
    - Qu'est-ce qu'une donnée de qualité ?
    - Management de la qualité des données
+
+ - 26/09/2013 : ETL / Pentaho Data Integration (4h)
+   - Pourquoi les ETL ?
+   - Automatisation des règles de qualité
+   - Prise en main de Pentaho Data Integration
