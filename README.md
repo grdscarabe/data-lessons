@@ -25,3 +25,10 @@ Programme du cours «Qualité des données»
    - Pourquoi les ETL ?
    - Automatisation des règles de qualité
    - Prise en main de Pentaho Data Integration
+
+ - 2/10/2013 : NoSQL (8h)
+   - SQL
+   - Pourquoi NoSQL ?
+   - Prise en main par la pratique : Redis et MongoDB
+   - Map/Reduce
+
