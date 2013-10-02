@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Cours 3 : NoSQL -- «Data quality»</title>
+		<meta name="author" content="Fabien Poulard">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../reveal.js-2.5.0/css/reveal.min.css">
+		<link rel="stylesheet" href="../reveal.js-2.5.0/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../reveal.js-2.5.0/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="../reveal.js-2.5.0/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../reveal.js-2.5.0/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>NoSQL</h2>
+					<p>
+						<small>Par <a href="http://www.fabienpoulard.info">Fabien Poulard</a> / <a href="http://twitter.com/grdscarabe">@grdscarabe</a> / <a href="http://www.dictanova.com">Dictanova</a></small>
+					</p>
+					<p>
+						<small>EPSI -- «Qualité des données»</small>
+					</p>
+				</section>
+
+				<section>
+					<section>
+							<h3>SQL ?</h3>
+							<ul>
+								<li>Base de données <b>relationnelles</b></li>
+								<li>Relations = liens entre des enregistrements</li>
+								<li>Jointure sur différentes tables : clés étrangères</li>
+								<li><a href="http://fr.wikipedia.org/wiki/Forme_normale_(bases_de_donn%C3%A9es_relationnelles)">Formes normales</a> (3 Boyce Codd NF)</li>
+								<li>Contraindre la modélisation des données pour éviter les anomalies <b>transactionnelles</b></li>
+							</ul>
+					</section>
+
+					<section>
+							<h3>ACID</h3>
+							<p>Un système de gestion de base de données classique permet de réaliser des transactions :</p>
+							<ul>
+								<li>atomiques : suite d'opérations est indivisible (<i>rollback</i>)</li>
+								<li>cohérentes : contenu cohérent à la fin de la transaction</li>
+								<li>isolées : modifications en cours ni visibles, ni modifiables tant que non validées (<i>commit</i>)</li>
+								<li>durables : permanence de l'état de la base après validation</li>
+							</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+							<h3>NoSQL = Not Only SQL</h3>
+							<p>Pas une totale remise en cause du SQL, une remise en cause partielle</p>
+					</section>
+
+					<section>
+						<h3>Dans quel but ?</h3>
+						<ul>
+							<li>Simplification</li>
+							<li>Suppression de conditions ACID pour faciliter la montée en charge</li>
+							<li>Besoins spécifiques</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Quelques exemples</h3>
+						<ul>
+							<li>BigTable (Google)</li>
+							<li>Cassandra (Facebook, Twitter, Digg)</li>
+							<li>CouchDB, CouchBase</li>
+							<li>HBase</li>
+							<li>MongoDB</li>
+							<li>Neo4j</li>
+							<li>Redis</li>
+							<li>...</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Mise en pratique</h3>
+						<p>Jeu de données : <a href="http://data.worldbank.org/indicator/SP.DYN.LE00.IN">world life expectancy</a> de la <a href="http://data.worldbank.org/">banque mondiale</a>.</p>
+					</section>
+
+					<section>
+						<h3>Préparation des données : transposition avec OpenRefine</h3>
+						<p>Objectif : Passer d'un fichier CSV contenant plusieurs valeurs par ligne à une seule valeur par ligne avec OpenRefine.</p>
+						<p><small>Source : <a href="http://blogs.worldbank.org/opendata/unpivoting-data-excel-open-refine-and-python">Unpivoting Data with Excel, Open Refine and Python</a></small></p>
+					</section>
+
+					<section>
+						<h3>Préparation des données : transposition avec OpenRefine</h3>
+						<img src="img/pivot-openrefine.png" />
+					</section>
+				</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h3>Redis</h3>
+						<ol>
+							<li>Installer</li>
+							<li>Injecter les données</li>
+							<li>Jouer</li>
+						</ol>
+					</section>
+
+					<section>
+						<h3>Redis / cli</h3>
+						<pre><code data-trim contenteditable>
+> keys *
+> set test1 10
+> get test1
+						</code></pre>
+						<p>Liste des commandes Redis : <a href="http://redis.io/commands">redis.io/commands</a></p>
+					</section>
+
+					<section>
+						<h3>Redis / Python</h3>
+						<pre><code data-trim contenteditable>
+import redis
+
+c = redis.StrictRedis()
+c.set("test2", 1)
+						</code></pre>
+					</section>
+
+					<section>
+						<h3>Redis / Python</h3>
+						<pre><code data-trim contenteditable>
+import csv
+with open("SP-DYN-LE00-IN_Indicator_MetaData_en_EXCEL-xls.tsv", "r") as fh:
+	reader = csv.reader(fh, delimiter="\t")
+	#reader.next()
+	next(reader)
+	for row in reader:
+		try:
+			key = "%s:%s" % (row[1], row[2])
+			print "key -> %s" % key
+			c.set(key, float(row[3]))
+		except Exception as e:
+			print "Error for row '%s': %s" % (row, e)
+						</code></pre>
+					</section>
+
+					<section>
+						<h3>Redis / Python</h3>
+						<pre><code data-trim contenteditable>
+sum = 0
+keys = c.keys("*:2011")
+for x in c.mget(keys):
+	sum += float(x)
+
+print "Avg life expectancy: %f" % (sum / len(keys))
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>MongoDB</h3>
+						<ol>
+							<li>Installer</li>
+							<li>Injecter les données</li>
+							<li>Jouer</li>
+						</ol>
+					</section>
+
+					<section>
+						<h3>Mongo / cli</h3>
+						<pre><code data-trim contenteditable>
+> show dbs
+> use local
+> show collections
+> db.unecollection.find()
+						</code></pre>
+						<p>Liste des commandes Mongo : <a href="http://docs.mongodb.org/manual/reference/">docs.mongodb.org</a></p>
+					</section>
+
+					<section>
+						<h3>Mongo / Python</h3>
+						<pre><code data-trim contenteditable>
+import pymongo
+import csv
+
+coll = pymongo.Connection()["dbepsi"]["life"]
+
+with open("SP-DYN-LE00-IN_Indicator_MetaData_en_EXCEL-xls.tsv", "r") as fh:
+	reader = csv.reader(fh, delimiter="\t")
+	next(reader)
+	for row in reader:
+		try:
+			docByCountry = {"_id": row[1]}
+			docByYear = {"_id": int(row[2])}
+			# upsert a country in a year document
+			coll.update(docByYear, {"$set": {row[1]: float(row[3])}}, upsert=True, multi=False)
+			# upsert a year in a country document
+			coll.update(docByCountry, {"$set": {row[2]: float(row[3])}}, upsert=True, multi=False)
+		except Exception as e:
+			print "Error for row '%s': %s" % (row, e)
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+							<h3>Map/Reduce</h3>
+							<img src="img/map-reduce-mongodb.png" />
+					</section>
+
+					<section>
+							<h3>Mise en pratique</h3>
+							<p>Prendre en main Map/Reduce dans MongoDB</p>
+							<ol>
+								<li>Moyenne de l'espérance de vie mondiale pour chaque année</li>
+								<li>Progression moyenne de l'espérance de vie par pays au cours des dernières décennies</li>
+								<li>Pays avec la plus forte/faible progression d'espérance de vie</li>
+								<li>Progression moyenne de l'espérance de vie mondiale au cours des dernières décennies</li>
+							</ol>
+					</section>
+
+					<section>
+							<h3>Mise en pratique : fonction <i>map</i></h3>
+							<pre><code data-trim contenteditable>
+var m = function() {
+	for(var k in this) {
+		if (k != "_id") { 
+			emit(k, {"sum_exp": this[k], "n": 1});
+		}
+	}
+}
+							</code></pre>
+					</section>
+
+					<section>
+							<h3>Mise en pratique : fonction <i>reduce</i></h3>
+							<pre><code data-trim contenteditable>
+var r = function(k, vals) {
+	var res = {"sum_exp": 0, "n": 0};
+	for(var i=0 ; i&lt;vals.length ; i++) {
+		var val = vals[i];
+		res["n"] += val["n"];
+		res["sum_exp"] += val["sum_exp"];
+	}
+	return res;
+}
+							</code></pre>
+					</section>
+
+					<section>
+							<h3>Mise en pratique : fonction <i>finalize</i></h3>
+							<pre><code data-trim contenteditable>
+var f = function(k, res) {
+	res["avg"] = res["sum_exp"] / (1.*res["n"])
+	return res;
+}
+							</code></pre>
+					</section>
+
+					<section>
+							<h3>Mise en pratique : exécution</h3>
+							<pre><code data-trim contenteditable>
+db.life.mapReduce(m, r, {out: "avg_life_per_year", query: {_id: /\w+/},finalize: f})
+							</code></pre>
+					</section>
+				</section>
+
+
+				<section>
+					<h3>Ressources</h3>
+					<ul>
+						<li><a href="http://editorialmatters.lee.net/blogs/data_journalism/article_ee6eb14c-0047-11e3-8f34-0019bb2963f4.html">Using OpenRefine, Excel to clean user-submitted data</a></li>
+						<li><a href="http://johngoodwin225.wordpress.com/2013/04/25/ordnance-survey-linked-data-and-the-reconciliation-api/">Ordnance Survey Linked Data and the Reconciliation API</a></li>
+						<li><a href="http://blog.ouseful.info/2013/05/03/a-wrangling-example-with-openrefine-making-ready-data/">A Wrangling Example With OpenRefine: Making “Oven Ready Data”</a></li>
+						<li><a href="http://schoolofdata.org/handbook/recipes/cleaning-data-with-refine/">Cleaning Data with Refine</a></li>
+						<li><a href="http://blog.ouseful.info/2013/05/05/questioning-election-data-to-see-if-it-has-a-story-to-tell/">Questioning Election Data to See if It Has a Story to Tell</a></li>
+						<li><a href="http://blog.ouseful.info/2013/02/20/geocoding-using-the-google-maps-geocoder-via-openrefine/">Geocoding Using the Google Maps Geocoder via OpenRefine</a></li>
+						<li><a href="http://datadrivenjournalism.net/resources/grabbing_twitter_search_results_into_google_refine_and_exporting_into_Gephi">Grabbing Twitter Search Results into Google Refine and Exporting Conversations into Gephi</a></li>
+						<li><a href="http://hughstimson.org/2012/04/16/playlist-data-mining/">Data-​​Mining My Old Radio Playlists</a></li>
+						<li><a href="http://dataist.wordpress.com/2012/04/10/tutorial-using-google-refine-to-clean-mortgage-data/">Tutorial: Using Google Refine to clean mortgage data</a></li>
+						<li><a href="https://wiki.duraspace.org/display/VIVO/Extending+Google+Refine+for+VIVO">Réconciliation avec VIVO</a></li>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../reveal.js-2.5.0/lib/js/head.min.js"></script>
+		<script src="../reveal.js-2.5.0/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../reveal.js-2.5.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../reveal.js-2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../reveal.js-2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../reveal.js-2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../reveal.js-2.5.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '../reveal.js-2.5.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
